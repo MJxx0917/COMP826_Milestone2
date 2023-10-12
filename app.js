@@ -5,6 +5,8 @@ const User = require('./models/User');
 const TrafficLight = require('./models/TrafficLight');
 const Preference = require('./models/Preference');
 const EmergencyLocation = require('./models/EmergencyLocation');
+const TrafficLightSettings = require('./models/TrafficLightSettings');
+const TrafficLightID = require('./models/TrafficLightID');
 
 const app = express();
 
@@ -176,6 +178,94 @@ app.post('/api/emergencyLocation', async (req, res) => {
   }
 });
 
+app.post('/api/trafficLightSettings', async (req, res) => {
+  try {
+    const { intervalTime, initialColor } = req.body;
+
+    const newSettings = new TrafficLightSettings({
+      intervalTime,
+      initialColor,
+    });
+
+    await newSettings.save();
+
+    console.log('Settings saved successfully:', newSettings);
+
+    res.status(201).json({ message: 'Settings saved successfully' });
+  } catch (error) {
+    console.error('Error saving settings:', error);
+    res.status(500).json({ error: 'An error occurred while saving settings' });
+  }
+});
+
+app.get('/api/trafficLightSettings', async (req, res) => {
+  try {
+    const allSettings = await TrafficLightSettings.find({}).lean();
+
+    const sortedSettings = allSettings.sort((a, b) => b.createdAt - a.createdAt);
+
+    const latestSetting = sortedSettings[0];
+
+    const response = latestSetting || { intervalTime: 5000, initialColor: 'red' };
+
+    res.json(response);
+  } catch (error) {
+    console.error('Error fetching settings:', error);
+    res.status(500).json({ error: 'An error occurred while fetching settings' });
+  }
+});
+
+app.post('/api/trafficLightSettings', async (req, res) => {
+  try {
+      const {trafficLightID} = req.body;
+
+      const newTrafficLightID = new TrafficLightID({
+          trafficLightID,
+      });
+
+      await newTrafficLightID.save();
+      console.log('Traffic Light ID saved successfully:', newTrafficLightID);
+      res.status(201).json({ message: 'Traffic Light ID saved successfully' });
+  } catch (error) {
+      console.error('Error saving Traffic Light ID:', error);
+      res.status(500).json({ error: 'An error occurred while saving Traffic Light ID' });
+  }
+});
+
+app.post('/api/trafficLightID', async (req, res) => {
+  try {
+      const { trafficLightID } = req.body;
+
+      const numericID = typeof trafficLightID === 'string' ? parseInt(trafficLightID, 10) : trafficLightID;
+
+      const newTrafficLightID = new TrafficLightID({
+          trafficLightID: numericID,
+      });
+
+      await newTrafficLightID.save();
+      console.log('Traffic Light ID saved successfully:', newTrafficLightID);
+      res.status(201).json({ message: 'Traffic Light ID saved successfully' });
+  } catch (error) {
+      console.error('Error saving Traffic Light ID:', error);
+      res.status(500).json({ error: 'An error occurred while saving Traffic Light ID' });
+  }
+});
+
+app.get('/api/trafficLightID', async (req, res) => {
+  try {
+      const latestTrafficLight = await TrafficLightID.findOne({}, {}, { sort: { 'trafficLightID': -1 } });
+
+      if (!latestTrafficLight) {
+          return res.status(404).json({ error: 'No traffic light records found' });
+      }
+
+      const latestNumericID = latestTrafficLight.trafficLightID;
+      res.json({ latestID: latestNumericID });
+  } catch (error) {
+      console.error('Error fetching latest Traffic Light ID:', error);
+      res.status(500).json({ error: 'An error occurred while fetching latest Traffic Light ID' });
+  }
+});
 
 const port = process.env.PORT || 8082;
 

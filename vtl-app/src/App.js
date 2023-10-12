@@ -12,6 +12,7 @@ import RouteSet from './components/RouteSet';
 import Notification from './components/Notification';
 import TrafficManagerPage from './TrafficManager/TrafficManagerPage';
 import Emergency from './TrafficManager/Emergency';
+import SetTrafficLights from './TrafficManager/SetTrafficLights';
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           <Route exact path='/notification' element={<Notification />} />
           <Route exact path='/traffic-manager-page' element={<TrafficManagerPage />} />
           <Route exact path='/emergency' element={<Emergency />} />
+          <Route exact path='/set-traffic-lights' element={<SetTrafficLights />} />
         </Routes>
       </div>
     </Router>
@@ -36,4 +38,4 @@ const App = () => {
 };
 
 export default App;
-//personalized-routes
+

@@ -300,6 +300,21 @@ button[type="submit"]:hover {
   border-radius: 10px;
 }
 
+.s-button{
+  background-image: url('traffic-light.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: none;
+  padding: 18px 18px;
+  cursor: pointer;
+  position: absolute;
+  top: 28%;
+  left: 10px; 
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 18px;
+}
+
 .login-container {
   max-width: 320px;
   width: 90%;
@@ -454,4 +469,41 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.set-traffic-lights {
+  max-width: 400px; 
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.set-traffic-lights label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.set-traffic-lights input,
+.set-traffic-lights select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+.set-traffic-lights button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.set-traffic-lights button:hover {
+  background-color: #45a049;
+}
+
 
